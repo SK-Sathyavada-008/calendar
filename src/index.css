@@ -1,0 +1,912 @@
+@import "tailwindcss";
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #91c8d4;
+  color: #1a1a1a;
+  min-height: 100vh;
+}
+
+.page-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  position: relative;
+  min-height: 100vh;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.topbar-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.month-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: #1a1a1a;
+}
+
+.nav-btn {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+  transition: background 0.15s, border-color 0.15s;
+  line-height: 1;
+}
+
+.nav-btn:hover {
+  background: #f0f0f0;
+  border-color: #bbb;
+}
+
+.selector-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.selector-select {
+  padding: 0.35rem 0.6rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  font-size: 0.875rem;
+  color: #1a1a1a;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.selector-select:hover,
+.selector-select:focus {
+  border-color: #888;
+}
+
+.calendar-wrapper {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.weekday-header {
+  padding: 0.6rem 0;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #fafafa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.day-cell {
+  min-height: 100px;
+  padding: 0.4rem;
+  border-right: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background 0.1s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.day-cell:hover {
+  background: #fafafa;
+}
+
+.day-cell:nth-child(7n) {
+  border-right: none;
+}
+
+.day-cell--empty {
+  background: #fafafa;
+  cursor: default;
+}
+
+.day-cell--today {
+  background: #eff6ff;
+}
+
+.day-cell--today:hover {
+  background: #dbeafe;
+}
+
+.day-number {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #444;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.day-number--today {
+  background: #4F46E5;
+  color: white;
+  font-weight: 600;
+}
+
+.day-events {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.event-badge {
+  border-radius: 4px;
+  padding: 1px 5px;
+  overflow: hidden;
+}
+
+.event-badge-title {
+  font-size: 0.72rem;
+  color: white;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f5f5f5;
+  color: #1a1a1a;
+  min-height: 100vh;
+}
+
+/* ── Page wrapper ── */
+.page-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ── Top bar ── */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.topbar-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.month-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: #1a1a1a;
+}
+
+/* ── Nav buttons ── */
+.nav-btn {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+  transition: background 0.15s, border-color 0.15s;
+  line-height: 1;
+}
+
+.nav-btn:hover {
+  background: #f0f0f0;
+  border-color: #bbb;
+}
+
+/* ── Selectors ── */
+.selector-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.selector-select {
+  padding: 0.35rem 0.6rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  font-size: 0.875rem;
+  color: #1a1a1a;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.selector-select:hover,
+.selector-select:focus {
+  border-color: #888;
+}
+
+/* ── Loading bar ── */
+.loading-bar {
+  height: 3px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.loading-bar-inner {
+  height: 100%;
+  width: 40%;
+  background: #4F46E5;
+  border-radius: 2px;
+  animation: slide 1s ease-in-out infinite;
+}
+
+@keyframes slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+
+.grid-faded {
+  opacity: 0.4;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+/* ── Calendar wrapper ── */
+.calendar-wrapper {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+/* ── Weekday header ── */
+.weekday-header {
+  padding: 0.6rem 0;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #fafafa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* ── Day cell ── */
+.day-cell {
+  min-height: 100px;
+  padding: 0.4rem;
+  border-right: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background 0.1s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.day-cell:hover {
+  background: #fafafa;
+}
+
+.day-cell:nth-child(7n) {
+  border-right: none;
+}
+
+.day-cell--empty {
+  background: #fafafa;
+  cursor: default;
+}
+
+.day-cell--today {
+  background: #eff6ff;
+}
+
+.day-cell--today:hover {
+  background: #dbeafe;
+}
+
+/* ── Day number ── */
+.day-number {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #444;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.day-number--today {
+  background: #4F46E5;
+  color: white;
+  font-weight: 600;
+}
+
+/* ── Events in cell ── */
+.day-events {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+/* ── Event badge ── */
+.event-badge {
+  border-radius: 4px;
+  padding: 1px 5px;
+  overflow: hidden;
+}
+
+.event-badge-title {
+  font-size: 0.72rem;
+  color: white;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+/* ── Overflow indicator ── */
+.day-overflow {
+  font-size: 0.7rem;
+  color: #888;
+  padding-left: 4px;
+}
+
+/* ── FAB ── */
+.fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #4F46E5;
+  color: white;
+  font-size: 1.75rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+  line-height: 1;
+  z-index: 100;
+}
+
+.fab:hover {
+  background: #4338CA;
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.5);
+}
+
+.fab:active {
+  transform: scale(0.96);
+}
+
+/* ── Dialog overlay ── */
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 1rem;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Dialog box ── */
+.dialog {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ── Dialog header ── */
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dialog-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.dialog-close {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #888;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.dialog-close:hover {
+  color: #1a1a1a;
+  background: #f0f0f0;
+}
+
+/* ── Dialog fields ── */
+.dialog-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.dialog-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dialog-input {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.dialog-input:focus {
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+.dialog-input--error {
+  border-color: #DC2626;
+}
+
+.dialog-error {
+  font-size: 0.78rem;
+  color: #DC2626;
+}
+
+.dialog-select {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+  background: white;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.dialog-select:focus {
+  border-color: #4F46E5;
+}
+
+/* ── Color swatches ── */
+.color-swatches {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+  outline: none;
+}
+
+.color-swatch:hover {
+  transform: scale(1.15);
+}
+
+.color-swatch--selected {
+  border-color: #1a1a1a;
+  transform: scale(1.15);
+}
+
+/* ── Event preview ── */
+.dialog-preview {
+  border-radius: 6px;
+  padding: 0.35rem 0.6rem;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Dialog action buttons ── */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.btn {
+  padding: 0.55rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn--secondary {
+  background: #f0f0f0;
+  color: #444;
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background: #e4e4e4;
+}
+
+.btn--primary {
+  background: #4F46E5;
+  color: white;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: #4338CA;
+}
+
+.day-overflow {
+  font-size: 0.7rem;
+  color: #888;
+  padding-left: 4px;
+}
+
+/* ── Holiday badge inside day cell ── */
+.holiday-badge {
+  font-size: 0.65rem;
+  font-weight: 500;
+  border-radius: 3px;
+  padding: 1px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
+
+.holiday-badge--festival {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.holiday-badge--ekadashi {
+  background: #EDE9FE;
+  color: #5B21B6;
+}
+
+/* ── Bottom cards row ── */
+.bottom-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+  padding-bottom: 5rem; /* space for FAB */
+}
+
+@media (max-width: 680px) {
+  .bottom-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Info card ── */
+.info-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+
+.info-card-icon {
+  font-size: 1.1rem;
+}
+
+.info-card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  flex: 1;
+}
+
+.info-card-count {
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #EEF2FF;
+  color: #4F46E5;
+  border-radius: 20px;
+  padding: 2px 8px;
+}
+
+.info-card-body {
+  padding: 0.5rem 0;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 280px;
+}
+
+.info-card-empty {
+  font-size: 0.82rem;
+  color: #aaa;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* ── Each row in the holidays card ── */
+.info-card-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  border-bottom: 1px solid #f7f7f7;
+  transition: background 0.1s;
+}
+
+.info-card-row:hover {
+  background: #fafafa;
+}
+
+.info-card-row:last-child {
+  border-bottom: none;
+}
+
+.info-card-day {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #4F46E5;
+  width: 22px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.info-card-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.info-card-dot--festival {
+  background: #F59E0B;
+}
+
+.info-card-dot--ekadashi {
+  background: #7C3AED;
+}
+
+.info-card-name {
+  font-size: 0.82rem;
+  color: #333;
+  flex: 1;
+}
+
+.info-card-tag {
+  font-size: 0.65rem;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 1px 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.info-card-tag--holiday {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.info-card-tag--event {
+  background: #EEF2FF;
+  color: #4F46E5;
+}
+
+/* ── Notes card ── */
+.note-add-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #4F46E5;
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.note-add-btn:hover {
+  background: #4338CA;
+  transform: scale(1.1);
+}
+
+.note-input-area {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  background: #FAFAFA;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.note-textarea {
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.88rem;
+  font-family: inherit;
+  resize: none;
+  outline: none;
+  color: #1a1a1a;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.note-textarea:focus {
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.note-input-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.note-input-hint {
+  font-size: 0.72rem;
+  color: #aaa;
+}
+
+/* ── Saved note row ── */
+.note-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #f7f7f7;
+}
+
+.note-row:last-child {
+  border-bottom: none;
+}
+
+.note-text {
+  font-size: 0.85rem;
+  color: #333;
+  line-height: 1.5;
+  flex: 1;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.note-delete-btn {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.note-delete-btn:hover {
+  color: #DC2626;
+  background: #FEF2F2;
+}
